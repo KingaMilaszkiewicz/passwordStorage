@@ -6,8 +6,10 @@ c.execute("CREATE TABLE IF NOT EXISTS passwords (host TEXT, username TEXT, email
 
 def searchdata():
     hostsearch = input("Please enter the host name: ")
-    result = c.execute(f"SELECT * FROM passwords WHERE host = '{hostsearch}'")
-    if result.rowcount != -1:
+    # make a list and fill it with all the rows of the result of the query, because of the way SQL works,
+    # we can't know how big the result is without running a separate query that returns a COUNT()
+    result = [row for row in c.execute(f"SELECT * FROM passwords WHERE host = '{hostsearch}'")]
+    if len(result) > 0:
         for row in result:
             print("Host:", row[0], "\nUsername:", row[1], "\nEmail:", row[2], "\nPassword:", row[3])
     else:
