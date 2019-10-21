@@ -1,8 +1,28 @@
 import sqlite3
+import base64
+import os
+import PyQt5
+
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
 conn = sqlite3.connect("passwords.db")
 c = conn.cursor()
 c.execute("CREATE TABLE IF NOT EXISTS passwords (host TEXT, username TEXT, email TEXT, password TEXT, UNIQUE (host, username, email, password))")
 
+# encoding a password
+password_provided = input("Password: ")
+password = password_provided.encode()
+salt = b'fEkB?XKedEUuyk7r'
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=salt,
+    iterations=100000,
+    backend=default_backend()
+)
+key=base64.urlsafe_b64encode(kdf.derive(password))
 
 def searchdata():
     hostsearch = input("Please enter the host name: ")
@@ -53,7 +73,8 @@ while True:
         3. Edit data
         4. Delete data
         5. Show all data
-        6. Exit\nInput a number: """))
+        6. Exit
+        Input a number: """))
 
         if userinput == 1:
             searchdata()
