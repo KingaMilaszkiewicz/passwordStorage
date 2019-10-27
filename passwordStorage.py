@@ -12,17 +12,17 @@ c = conn.cursor()
 c.execute("CREATE TABLE IF NOT EXISTS passwords (host TEXT, username TEXT, email TEXT, password TEXT, UNIQUE (host, username, email, password))")
 
 # encoding a password
-password_provided = input("Password: ")
-password = password_provided.encode()
-salt = b'fEkB?XKedEUuyk7r'
-kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=100000,
-    backend=default_backend()
-)
-key=base64.urlsafe_b64encode(kdf.derive(password))
+# password_provided = input("Password: ")
+# password = password_provided.encode()
+# salt = b'fEkB?XKedEUuyk7r'
+# kdf = PBKDF2HMAC(
+#     algorithm=hashes.SHA256(),
+#     length=32,
+#     salt=salt,
+#     iterations=100000,
+#     backend=default_backend()
+# )
+# key=base64.urlsafe_b64encode(kdf.derive(password))
 
 def searchdata():
     hostsearch = input("Please enter the host name: ")
