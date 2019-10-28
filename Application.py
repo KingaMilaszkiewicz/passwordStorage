@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QGridLayout, QDesktopWidget, QPushButton
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 
 class Application(QWidget):
     def __init__(self):
@@ -14,6 +14,12 @@ class Application(QWidget):
         self.initUI()
 
     def initUI(self):
+        self.createTable()
+
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.tableWidget)
+        self.setLayout(self.layout)
+
         button = QPushButton("Add", self)
         button.setToolTip("Adds a record to the password database")
         button.move(15, 10)
@@ -25,6 +31,28 @@ class Application(QWidget):
         button2.clicked.connect(self.on_click2)
 
         self.show()
+
+    def createTable(self):
+        self.tableWidget = QTableWidget()
+        self.tableWidget.setRowCount(2)
+        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setItem(0, 0, QTableWidgetItem("Host Name"))
+        self.tableWidget.setItem(0, 1, QTableWidgetItem("Email"))
+        self.tableWidget.setItem(0, 2, QTableWidgetItem("Nickname"))
+        self.tableWidget.setItem(0, 3, QTableWidgetItem("Password"))
+        self.tableWidget.setItem(1, 0, QTableWidgetItem("Discord"))
+        self.tableWidget.setItem(1, 1, QTableWidgetItem("kinga.milaszkiewicz@outlook.com"))
+        self.tableWidget.setItem(1, 2, QTableWidgetItem("Kinga#6585"))
+        self.tableWidget.setItem(1, 3, QTableWidgetItem("somePassword"))
+        self.tableWidget.move(100, 50)
+
+        self.tableWidget.doubleClicked.connect(self.on_click_table)
+
+    @pyqtSlot()
+    def on_click_table(self):
+        print("\n")
+        for currentQTableWidgetItem in self.tableWidget.selectedItems():
+            print(currentQTableWidgetItem.row(), currentQTableWidgetItem.column(), currentQTableWidgetItem.text())
 
     @pyqtSlot()
     def on_click2(self):
