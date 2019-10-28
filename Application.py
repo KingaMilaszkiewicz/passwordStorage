@@ -19,7 +19,16 @@ class Application(QWidget):
         button.move(15, 10)
         button.clicked.connect(self.on_click)
 
+        button2 = QPushButton("Settings", self)
+        button2.setToolTip("Change your settings")
+        button2.move(510, 10)
+        button2.clicked.connect(self.on_click2)
+
         self.show()
+
+    @pyqtSlot()
+    def on_click2(self):
+        print("Entered settings window!")
 
     @pyqtSlot()
     def on_click(self):
